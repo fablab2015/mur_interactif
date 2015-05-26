@@ -1,0 +1,630 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{c877d4b4-2730-4a2d-b82f-8b99136cb931}</ProjectGuid>
+    <ProjectHome />
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartupFile>web.js</StartupFile>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Content Include="LISEZMOI.txt" />
+    <Content Include="LISEZMOI.txt~" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Compile Include="node-streamer.js" />
+    <Compile Include="util.js" />
+    <Compile Include="views\includes\generic\build\pdf.js" />
+    <Compile Include="views\includes\generic\build\pdf.worker.js" />
+    <Compile Include="views\includes\generic\web\compatibility.js" />
+    <Compile Include="views\includes\generic\web\debugger.js" />
+    <Compile Include="views\includes\generic\web\l10n.js" />
+    <Compile Include="views\includes\generic\web\viewer.js" />
+    <Compile Include="views\includes\pdf.js" />
+    <Compile Include="views\includes\pdf.worker.js" />
+    <Compile Include="web.js" />
+    <Content Include="static\helloworld.pdf" />
+    <Content Include="views\includes\generic\LICENSE" />
+    <Content Include="views\includes\generic\web\cmaps\78-EUC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\78-EUC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\78-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\78-RKSJ-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\78-RKSJ-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\78-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\78ms-RKSJ-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\78ms-RKSJ-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\83pv-RKSJ-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\90ms-RKSJ-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\90ms-RKSJ-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\90msp-RKSJ-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\90msp-RKSJ-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\90pv-RKSJ-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\90pv-RKSJ-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Add-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Add-RKSJ-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Add-RKSJ-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Add-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-CNS1-0.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-CNS1-1.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-CNS1-2.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-CNS1-3.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-CNS1-4.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-CNS1-5.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-CNS1-6.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-CNS1-UCS2.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-GB1-0.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-GB1-1.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-GB1-2.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-GB1-3.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-GB1-4.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-GB1-5.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-GB1-UCS2.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Japan1-0.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Japan1-1.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Japan1-2.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Japan1-3.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Japan1-4.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Japan1-5.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Japan1-6.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Japan1-UCS2.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Korea1-0.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Korea1-1.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Korea1-2.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Adobe-Korea1-UCS2.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\B5-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\B5-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\B5pc-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\B5pc-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\CNS-EUC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\CNS-EUC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\CNS1-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\CNS1-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\CNS2-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\CNS2-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\ETen-B5-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\ETen-B5-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\ETenms-B5-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\ETenms-B5-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\ETHK-B5-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\ETHK-B5-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\EUC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\EUC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Ext-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Ext-RKSJ-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Ext-RKSJ-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Ext-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GB-EUC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GB-EUC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GB-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GB-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBK-EUC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBK-EUC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBK2K-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBK2K-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBKp-EUC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBKp-EUC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBpc-EUC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBpc-EUC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBT-EUC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBT-EUC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBT-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBT-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBTpc-EUC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\GBTpc-EUC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Hankaku.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Hiragana.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKdla-B5-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKdla-B5-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKdlb-B5-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKdlb-B5-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKgccs-B5-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKgccs-B5-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKm314-B5-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKm314-B5-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKm471-B5-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKm471-B5-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKscs-B5-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\HKscs-B5-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Katakana.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSC-EUC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSC-EUC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSC-Johab-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSC-Johab-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSCms-UHC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSCms-UHC-HW-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSCms-UHC-HW-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSCms-UHC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSCpc-EUC-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\KSCpc-EUC-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\LICENSE" />
+    <Content Include="views\includes\generic\web\cmaps\NWP-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\NWP-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\RKSJ-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\RKSJ-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\Roman.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniCNS-UCS2-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniCNS-UCS2-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniCNS-UTF16-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniCNS-UTF16-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniCNS-UTF32-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniCNS-UTF32-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniCNS-UTF8-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniCNS-UTF8-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniGB-UCS2-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniGB-UCS2-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniGB-UTF16-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniGB-UTF16-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniGB-UTF32-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniGB-UTF32-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniGB-UTF8-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniGB-UTF8-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS-UCS2-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS-UCS2-HW-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS-UCS2-HW-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS-UCS2-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS-UTF16-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS-UTF16-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS-UTF32-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS-UTF32-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS-UTF8-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS-UTF8-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS2004-UTF16-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS2004-UTF16-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS2004-UTF32-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS2004-UTF32-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS2004-UTF8-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJIS2004-UTF8-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJISPro-UCS2-HW-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJISPro-UCS2-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJISPro-UTF8-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJISX0213-UTF32-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJISX0213-UTF32-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJISX02132004-UTF32-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniJISX02132004-UTF32-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniKS-UCS2-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniKS-UCS2-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniKS-UTF16-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniKS-UTF16-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniKS-UTF32-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniKS-UTF32-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniKS-UTF8-H.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\UniKS-UTF8-V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\V.bcmap" />
+    <Content Include="views\includes\generic\web\cmaps\WP-Symbol.bcmap" />
+    <Content Include="views\includes\generic\web\compressed.tracemonkey-pldi-09.pdf" />
+    <Content Include="views\includes\generic\web\images\annotation-check.svg" />
+    <Content Include="views\includes\generic\web\images\annotation-comment.svg" />
+    <Content Include="views\includes\generic\web\images\annotation-help.svg" />
+    <Content Include="views\includes\generic\web\images\annotation-insert.svg" />
+    <Content Include="views\includes\generic\web\images\annotation-key.svg" />
+    <Content Include="views\includes\generic\web\images\annotation-newparagraph.svg" />
+    <Content Include="views\includes\generic\web\images\annotation-noicon.svg" />
+    <Content Include="views\includes\generic\web\images\annotation-note.svg" />
+    <Content Include="views\includes\generic\web\images\annotation-paragraph.svg" />
+    <Content Include="views\includes\generic\web\images\findbarButton-next%402x.png" />
+    <Content Include="views\includes\generic\web\images\findbarButton-next-rtl%402x.png" />
+    <Content Include="views\includes\generic\web\images\findbarButton-next-rtl.png" />
+    <Content Include="views\includes\generic\web\images\findbarButton-next.png" />
+    <Content Include="views\includes\generic\web\images\findbarButton-previous%402x.png" />
+    <Content Include="views\includes\generic\web\images\findbarButton-previous-rtl%402x.png" />
+    <Content Include="views\includes\generic\web\images\findbarButton-previous-rtl.png" />
+    <Content Include="views\includes\generic\web\images\findbarButton-previous.png" />
+    <Content Include="views\includes\generic\web\images\grab.cur" />
+    <Content Include="views\includes\generic\web\images\grabbing.cur" />
+    <Content Include="views\includes\generic\web\images\loading-icon.gif" />
+    <Content Include="views\includes\generic\web\images\loading-small%402x.png" />
+    <Content Include="views\includes\generic\web\images\loading-small.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-documentProperties%402x.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-documentProperties.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-firstPage%402x.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-firstPage.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-handTool%402x.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-handTool.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-lastPage%402x.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-lastPage.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-rotateCcw%402x.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-rotateCcw.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-rotateCw%402x.png" />
+    <Content Include="views\includes\generic\web\images\secondaryToolbarButton-rotateCw.png" />
+    <Content Include="views\includes\generic\web\images\shadow.png" />
+    <Content Include="views\includes\generic\web\images\texture.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-bookmark%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-bookmark.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-download%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-download.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-menuArrows%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-menuArrows.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-openFile%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-openFile.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-pageDown%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-pageDown-rtl%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-pageDown-rtl.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-pageDown.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-pageUp%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-pageUp-rtl%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-pageUp-rtl.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-pageUp.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-presentationMode%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-presentationMode.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-print%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-print.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-search%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-search.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-secondaryToolbarToggle%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-secondaryToolbarToggle-rtl%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-secondaryToolbarToggle-rtl.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-secondaryToolbarToggle.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-sidebarToggle%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-sidebarToggle-rtl%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-sidebarToggle-rtl.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-sidebarToggle.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-viewAttachments%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-viewAttachments.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-viewOutline%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-viewOutline-rtl%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-viewOutline-rtl.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-viewOutline.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-viewThumbnail%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-viewThumbnail.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-zoomIn%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-zoomIn.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-zoomOut%402x.png" />
+    <Content Include="views\includes\generic\web\images\toolbarButton-zoomOut.png" />
+    <Content Include="views\includes\generic\web\locale\ach\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\af\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ak\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\an\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ar\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ast\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\as\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\az\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\be\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\bg\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\bn-BD\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\bn-IN\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\br\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\bs\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ca\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\csb\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\cs\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\cy\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\da\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\de\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\el\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\en-GB\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\en-US\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\en-ZA\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\eo\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\es-AR\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\es-CL\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\es-ES\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\es-MX\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\et\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\eu\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\fa\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ff\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\fi\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\fr\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\fy-NL\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ga-IE\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\gd\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\gl\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\gu-IN\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\he\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\hi-IN\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\hr\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\hu\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\hy-AM\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\id\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\is\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\it\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ja\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ka\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\kk\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\km\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\kn\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ko\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ku\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\lg\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\lij\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\locale.properties" />
+    <Content Include="views\includes\generic\web\locale\lt\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\lv\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\mai\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\mk\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ml\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\mn\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\mr\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ms\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\my\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\nb-NO\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\nl\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\nn-NO\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\nso\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\oc\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\or\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\pa-IN\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\pl\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\pt-BR\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\pt-PT\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\rm\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ro\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ru\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\rw\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\sah\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\si\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\sk\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\sl\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\son\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\sq\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\sr\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\sv-SE\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\sw\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ta-LK\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ta\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\te\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\th\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\tl\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\tn\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\tr\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\uk\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\ur\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\vi\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\wo\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\xh\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\zh-CN\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\zh-TW\viewer.properties" />
+    <Content Include="views\includes\generic\web\locale\zu\viewer.properties" />
+    <Content Include="views\includes\generic\web\viewer.css" />
+    <Content Include="views\includes\generic\web\viewer.html" />
+    <Content Include="views\index3.html" />
+    <Content Include="views\index.html" />
+    <Content Include="views\css\component.css" />
+    <Content Include="views\css\default.css" />
+    <Content Include="views\css\demo.css" />
+    <Content Include="views\css\icons.css" />
+    <Content Include="views\css\normalize.css" />
+    <Content Include="views\css\style.css" />
+    <Content Include="views\css\window.css" />
+    <Content Include="views\flowplayer\index.html" />
+    <Compile Include="views\flowplayer\flowplayer.min.js" />
+    <Compile Include="views\flowplayer\swfobject.js" />
+    <Content Include="views\img\icons.png" />
+    <Compile Include="views\includes\classie.js" />
+    <Compile Include="views\includes\domReady.js" />
+    <Compile Include="views\includes\fenetrage.js" />
+    <Compile Include="views\includes\flowplayer.min.js" />
+    <Compile Include="views\includes\jquery-2.1.1.js" />
+    <Compile Include="views\includes\jquery.pep.js" />
+    <Compile Include="views\includes\jquery.touchhold.js" />
+    <Compile Include="views\includes\mlpushmenu.js" />
+    <Compile Include="views\includes\modernizr.custom.js" />
+    <Compile Include="views\includes\modernizr.min.js" />
+    <Compile Include="views\includes\require.js" />
+    <Compile Include="views\includes\swfobject.js" />
+    <Compile Include="views\js\callback.js" />
+    <Compile Include="views\js\loadMedia.js" />
+    <Compile Include="views\js\main.js" />
+    <Compile Include="views\js\nowCallback.js" />
+    <Content Include="views\flowplayer\video-js\demo.html" />
+    <Content Include="views\flowplayer\video-js\video-js.css" />
+    <Content Include="views\flowplayer\video-js\video-js.min.css" />
+    <Compile Include="views\flowplayer\video-js\video.dev.js" />
+    <Compile Include="views\flowplayer\video-js\video.js" />
+    <Compile Include="views\flowplayer\video-js\video.novtt.dev.js" />
+    <Compile Include="views\flowplayer\video-js\video.novtt.js" />
+    <Content Include="views\flowplayer\video-js\font\vjs.svg" />
+    <Compile Include="views\flowplayer\video-js\lang\ar.js" />
+    <Compile Include="views\flowplayer\video-js\lang\bg.js" />
+    <Compile Include="views\flowplayer\video-js\lang\ca.js" />
+    <Compile Include="views\flowplayer\video-js\lang\cs.js" />
+    <Compile Include="views\flowplayer\video-js\lang\de.js" />
+    <Compile Include="views\flowplayer\video-js\lang\es.js" />
+    <Compile Include="views\flowplayer\video-js\lang\fr.js" />
+    <Compile Include="views\flowplayer\video-js\lang\hu.js" />
+    <Compile Include="views\flowplayer\video-js\lang\it.js" />
+    <Compile Include="views\flowplayer\video-js\lang\ja.js" />
+    <Compile Include="views\flowplayer\video-js\lang\ko.js" />
+    <Compile Include="views\flowplayer\video-js\lang\nl.js" />
+    <Compile Include="views\flowplayer\video-js\lang\pt-BR.js" />
+    <Compile Include="views\flowplayer\video-js\lang\ru.js" />
+    <Compile Include="views\flowplayer\video-js\lang\tr.js" />
+    <Compile Include="views\flowplayer\video-js\lang\uk.js" />
+    <Compile Include="views\flowplayer\video-js\lang\vi.js" />
+    <Compile Include="views\flowplayer\video-js\lang\zh-CN.js" />
+    <Compile Include="views\flowplayer\video-js\lang\zh-TW.js" />
+    <Compile Include="views\flowplayer\video-js\lang\zh.js" />
+    <Content Include="views\fonts\codropsicons\license.txt" />
+    <Content Include="views\fonts\codropsicons\codropsicons.svg" />
+    <Content Include="views\fonts\linecons\license.txt" />
+    <Content Include="views\fonts\linecons\Read Me.txt" />
+    <Content Include="views\fonts\linecons\linecons.dev.svg" />
+    <Content Include="views\fonts\linecons\linecons.svg" />
+    <Compile Include="views\fonts\linecons\lte-ie7.js" />
+    <Compile Include="views\includes\jquery\jquery.js" />
+    <Compile Include="views\includes\jquery\modernizr.min.js" />
+    <Content Include="views\includes\qunit\qunit.css" />
+    <Compile Include="views\includes\qunit\qunit.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="static" />
+    <Folder Include="views" />
+    <Folder Include="views\css" />
+    <Folder Include="views\css\menu" />
+    <Folder Include="views\flowplayer" />
+    <Folder Include="views\flowplayer\video-js" />
+    <Folder Include="views\flowplayer\video-js\font" />
+    <Folder Include="views\flowplayer\video-js\lang" />
+    <Folder Include="views\fonts" />
+    <Folder Include="views\fonts\codropsicons" />
+    <Folder Include="views\fonts\linecons" />
+    <Folder Include="views\img" />
+    <Folder Include="views\includes" />
+    <Folder Include="views\includes\generic\" />
+    <Folder Include="views\includes\generic\build\" />
+    <Folder Include="views\includes\generic\web\" />
+    <Folder Include="views\includes\generic\web\cmaps\" />
+    <Folder Include="views\includes\generic\web\images\" />
+    <Folder Include="views\includes\generic\web\locale\" />
+    <Folder Include="views\includes\generic\web\locale\ach\" />
+    <Folder Include="views\includes\generic\web\locale\af\" />
+    <Folder Include="views\includes\generic\web\locale\ak\" />
+    <Folder Include="views\includes\generic\web\locale\an\" />
+    <Folder Include="views\includes\generic\web\locale\ar\" />
+    <Folder Include="views\includes\generic\web\locale\ast\" />
+    <Folder Include="views\includes\generic\web\locale\as\" />
+    <Folder Include="views\includes\generic\web\locale\az\" />
+    <Folder Include="views\includes\generic\web\locale\be\" />
+    <Folder Include="views\includes\generic\web\locale\bg\" />
+    <Folder Include="views\includes\generic\web\locale\bn-BD\" />
+    <Folder Include="views\includes\generic\web\locale\bn-IN\" />
+    <Folder Include="views\includes\generic\web\locale\br\" />
+    <Folder Include="views\includes\generic\web\locale\bs\" />
+    <Folder Include="views\includes\generic\web\locale\ca\" />
+    <Folder Include="views\includes\generic\web\locale\csb\" />
+    <Folder Include="views\includes\generic\web\locale\cs\" />
+    <Folder Include="views\includes\generic\web\locale\cy\" />
+    <Folder Include="views\includes\generic\web\locale\da\" />
+    <Folder Include="views\includes\generic\web\locale\de\" />
+    <Folder Include="views\includes\generic\web\locale\el\" />
+    <Folder Include="views\includes\generic\web\locale\en-GB\" />
+    <Folder Include="views\includes\generic\web\locale\en-US\" />
+    <Folder Include="views\includes\generic\web\locale\en-ZA\" />
+    <Folder Include="views\includes\generic\web\locale\eo\" />
+    <Folder Include="views\includes\generic\web\locale\es-AR\" />
+    <Folder Include="views\includes\generic\web\locale\es-CL\" />
+    <Folder Include="views\includes\generic\web\locale\es-ES\" />
+    <Folder Include="views\includes\generic\web\locale\es-MX\" />
+    <Folder Include="views\includes\generic\web\locale\et\" />
+    <Folder Include="views\includes\generic\web\locale\eu\" />
+    <Folder Include="views\includes\generic\web\locale\fa\" />
+    <Folder Include="views\includes\generic\web\locale\ff\" />
+    <Folder Include="views\includes\generic\web\locale\fi\" />
+    <Folder Include="views\includes\generic\web\locale\fr\" />
+    <Folder Include="views\includes\generic\web\locale\fy-NL\" />
+    <Folder Include="views\includes\generic\web\locale\ga-IE\" />
+    <Folder Include="views\includes\generic\web\locale\gd\" />
+    <Folder Include="views\includes\generic\web\locale\gl\" />
+    <Folder Include="views\includes\generic\web\locale\gu-IN\" />
+    <Folder Include="views\includes\generic\web\locale\he\" />
+    <Folder Include="views\includes\generic\web\locale\hi-IN\" />
+    <Folder Include="views\includes\generic\web\locale\hr\" />
+    <Folder Include="views\includes\generic\web\locale\hu\" />
+    <Folder Include="views\includes\generic\web\locale\hy-AM\" />
+    <Folder Include="views\includes\generic\web\locale\id\" />
+    <Folder Include="views\includes\generic\web\locale\is\" />
+    <Folder Include="views\includes\generic\web\locale\it\" />
+    <Folder Include="views\includes\generic\web\locale\ja\" />
+    <Folder Include="views\includes\generic\web\locale\ka\" />
+    <Folder Include="views\includes\generic\web\locale\kk\" />
+    <Folder Include="views\includes\generic\web\locale\km\" />
+    <Folder Include="views\includes\generic\web\locale\kn\" />
+    <Folder Include="views\includes\generic\web\locale\ko\" />
+    <Folder Include="views\includes\generic\web\locale\ku\" />
+    <Folder Include="views\includes\generic\web\locale\lg\" />
+    <Folder Include="views\includes\generic\web\locale\lij\" />
+    <Folder Include="views\includes\generic\web\locale\lt\" />
+    <Folder Include="views\includes\generic\web\locale\lv\" />
+    <Folder Include="views\includes\generic\web\locale\mai\" />
+    <Folder Include="views\includes\generic\web\locale\mk\" />
+    <Folder Include="views\includes\generic\web\locale\ml\" />
+    <Folder Include="views\includes\generic\web\locale\mn\" />
+    <Folder Include="views\includes\generic\web\locale\mr\" />
+    <Folder Include="views\includes\generic\web\locale\ms\" />
+    <Folder Include="views\includes\generic\web\locale\my\" />
+    <Folder Include="views\includes\generic\web\locale\nb-NO\" />
+    <Folder Include="views\includes\generic\web\locale\nl\" />
+    <Folder Include="views\includes\generic\web\locale\nn-NO\" />
+    <Folder Include="views\includes\generic\web\locale\nso\" />
+    <Folder Include="views\includes\generic\web\locale\oc\" />
+    <Folder Include="views\includes\generic\web\locale\or\" />
+    <Folder Include="views\includes\generic\web\locale\pa-IN\" />
+    <Folder Include="views\includes\generic\web\locale\pl\" />
+    <Folder Include="views\includes\generic\web\locale\pt-BR\" />
+    <Folder Include="views\includes\generic\web\locale\pt-PT\" />
+    <Folder Include="views\includes\generic\web\locale\rm\" />
+    <Folder Include="views\includes\generic\web\locale\ro\" />
+    <Folder Include="views\includes\generic\web\locale\ru\" />
+    <Folder Include="views\includes\generic\web\locale\rw\" />
+    <Folder Include="views\includes\generic\web\locale\sah\" />
+    <Folder Include="views\includes\generic\web\locale\si\" />
+    <Folder Include="views\includes\generic\web\locale\sk\" />
+    <Folder Include="views\includes\generic\web\locale\sl\" />
+    <Folder Include="views\includes\generic\web\locale\son\" />
+    <Folder Include="views\includes\generic\web\locale\sq\" />
+    <Folder Include="views\includes\generic\web\locale\sr\" />
+    <Folder Include="views\includes\generic\web\locale\sv-SE\" />
+    <Folder Include="views\includes\generic\web\locale\sw\" />
+    <Folder Include="views\includes\generic\web\locale\ta-LK\" />
+    <Folder Include="views\includes\generic\web\locale\ta\" />
+    <Folder Include="views\includes\generic\web\locale\te\" />
+    <Folder Include="views\includes\generic\web\locale\th\" />
+    <Folder Include="views\includes\generic\web\locale\tl\" />
+    <Folder Include="views\includes\generic\web\locale\tn\" />
+    <Folder Include="views\includes\generic\web\locale\tr\" />
+    <Folder Include="views\includes\generic\web\locale\uk\" />
+    <Folder Include="views\includes\generic\web\locale\ur\" />
+    <Folder Include="views\includes\generic\web\locale\vi\" />
+    <Folder Include="views\includes\generic\web\locale\wo\" />
+    <Folder Include="views\includes\generic\web\locale\xh\" />
+    <Folder Include="views\includes\generic\web\locale\zh-CN\" />
+    <Folder Include="views\includes\generic\web\locale\zh-TW\" />
+    <Folder Include="views\includes\generic\web\locale\zu\" />
+    <Folder Include="views\includes\jquery" />
+    <Folder Include="views\includes\qunit" />
+    <Folder Include="views\js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

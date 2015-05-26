@@ -1,0 +1,361 @@
+var ImgWarper = ImgWarper || {};
+
+ImgWarper.Warper = function(
+    canvas, img, imgData, optGridSize, optAlpha) {
+  this.alpha = optAlpha || 1;
+  this.gridSize = optGridSize || 20;
+  this.canvas = canvas;
+  this.ctx = canvas.getContext("2d");
+
+  var source = img;
+  
+  this.width = canvas.width;
+  this.height = canvas.height;
+  
+  /*
+  this.width = source.width;
+  this.height = source.height;
+  */
+  
+  this.imgData = imgData.data;
+  //canvas.width = source.width;
+  //canvas.height = source.height;
+  this.bilinearInterpolation = 
+    new ImgWarper.BilinearInterpolation(this.width, this.height, canvas);
+
+  //this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+  //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  //this.ctx.putImageData(imgData, 0, 0);
+  //console.log('drawn');
+
+  /*this.grid = [];
+  for (var i = 0; i < this.width ; i += this.gridSize) {
+    for (var j = 0; j < this.height ; j += this.gridSize) {
+      a = new ImgWarper.Point(i,j);
+      b = new ImgWarper.Point(i + this.gridSize, j);
+      c = new ImgWarper.Point(i + this.gridSize, j + this.gridSize);
+      d = new ImgWarper.Point(i, j + this.gridSize);
+      this.grid.push([a, b, c, d]);
+    }
+  }*/
+}
+
+ImgWarper.Warper.prototype.warp = function(  fromPoints,toPoints,contx) {
+  //var t0 = (new Date()).getTime();
+  var deformation = 
+    new ImgWarper.AffineDeformation(toPoints, fromPoints, this.alpha);
+    //var grid=[];
+  /*if (fromPoints.length==4) //poour test
+  {
+  		//console.log("ok remplissage grid début");
+  		
+      grid.push([toPoints[0],toPoints[1],toPoints[2], toPoints[3]]);//([fromPoints[0],fromPoints[1],fromPoints[2], fromPoints[3]]);
+  }*/
+  
+  
+  /**********grille n points*/
+  //symétries pour les points sur les deux horizontales de départ
+  var lgToPoints=fromPoints.length;
+  for (var i=0;i<lgToPoints;i++)
+  {
+  	if (fromPoints[i].y==0){
+  		fromPoints[i].hori=1;
+  		fromPoints[i].indice=i;
+  		var sym=new ImgWarper.Point(fromPoints[i].x,this.height);
+  		fromPoints.push(sym);
+  	
+  	}
+  	
+  	else if (fromPoints[i].y==this.height){
+  		fromPoints[i].hori=1;
+  		fromPoints[i].indice=i;
+			var sym=new ImgWarper.Point(fromPoints[i].x,0);
+			fromPoints.push(sym);
+  	}
+  
+  
+  }
+  
+  
+   //symétries pour les points sur les deux verticales de départ
+   lgToPoints=toPoints.length;
+  /*
+  for (var i=0;i<lgToPoints;i++)
+  {
+  	if ( ((toPoints[i].x==0) || (toPoints[i].x==this.width)) && toPoints[i].y!=0 &&  toPoints[i].y!=this.){
+  		for (var j=0;j<lgToPoints;j++){
+  			if(toPoints[j].hori!==undefined && toPoints[j].hori==1)//le point j se trouvait à la base sur une horizontale =>on projete sur ce point
+  			{	  
+  					toPoints[i].hori=1;
+  					toPoints[i].indice=i;
+  					var sym=new ImgWarper.Point(toPoints[j].x,toPoints[i]);
+  					toPoints.push(sym);
+  			}
+  		}
+
+  		
+  	}
+  	
+  
+  
+  }
+  */
+  //enlever les doublures
+  n=fromPoints.length;
+  for(var i=0;i<n;i++)
+  {
+  	for(var j=i;j<n;j++)
+  	{
+			if ((j!=i) && (fromPoints[j].x==fromPoints[i].x) && (fromPoints[j].y==fromPoints[i].y) )
+			{
+				fromPoints.splice(j,1);
+				n--;
+			}
+  	}
+  }
+ /* uniqueArray = a.filter(function(item, pos) {
+    return a.indexOf(item) == pos;
+})*/
+  /*var uniquePoints = [];
+	$.each(toPoints, function(i, el){
+    if($.inArray(el, uniquePoints) === -1) uniquePoints.push(el);
+});	*/
+
+//toPoints=uniquePoints;
+  
+  ///
+  ///construction de la grille*/
+  var lignes=[];
+  var sortedPoints=[];
+  var min=this.height;
+  var nbLg=0;
+  var y=0;
+  lgToPoints=fromPoints.length;
+  /**** variables pour le tri*/
+  var sumNbPoints=0;
+  var nbPointsTr=0;//nb points traités
+  //
+  while(y<=this.height)
+  {
+  	cpt=0;
+  	for(var i=0;i<lgToPoints;i++)
+  	{
+  		if(fromPoints[i].y<min && fromPoints[i].y!=y && y!==this.height ){
+  			//mis à jour du min des y pour éviter d'incrémenter de 1
+  			min=fromPoints[i].y;
+  		}
+  		if(y===this.height)//cas limite
+  			min++;
+  		//enregistrer les points par ligne
+			if (fromPoints[i].y==y){
+				cpt++;
+				sortedPoints.push(fromPoints[i]);//à trier selon x TODO
+			}
+			
+			
+  	}
+  	lignes[nbLg]=cpt;//enregistrer le nombre de point sur cette ligne
+		nbLg++;
+		
+  	y=min;//prochaine ligne à considérer
+  
+  }
+  
+  /*tri*/
+  var fin =false;
+  while(!fin)
+  {
+  	fin=true;
+  	for(var i=0;i<sortedPoints.length-1;i++)
+  	{
+  		if((sortedPoints[i].y==sortedPoints[i+1].y) &&  (sortedPoints[i].x>sortedPoints[i+1].x)){
+				var tmp=sortedPoints[i];
+				sortedPoints[i]=sortedPoints[i+1];
+				sortedPoints[i+1]=tmp;
+				fin=false;
+  		}
+  	}
+  }
+  
+  
+  ///*remplissage de la grille*//
+  var grid=[];
+  var debLig=0;
+  for(var i=0;i<lignes.length-1;i++)
+  {
+  
+  	for(var j=0;j<lignes[i]-1;j++)
+  	{
+  		var p11=sortedPoints[debLig+j];
+  		var p12=sortedPoints[debLig+j+1];
+  		var p22=sortedPoints[debLig+lignes[i]+1];
+  		var p21=sortedPoints[debLig+lignes[i]];
+  		grid.push([p11,p12,p22,p21 ] );
+  	}
+  	debLig=debLig+lignes[i];
+  	
+  
+  }
+  
+  
+  
+  
+  
+  
+  
+  ///*///
+  /*var transformedGrid = [];
+  for (var i = 0; i < grid.length; ++i) {
+    transformedGrid[i] = [
+        deformation.pointMover(grid[i][0]),
+        deformation.pointMover(grid[i][1]),
+        deformation.pointMover(grid[i][2]),
+        deformation.pointMover(grid[i][3])];
+  }*/
+  
+  
+  /***************/
+  
+  
+  //////////////////
+  var transformedGrid = [];
+  for (var i = 0; i < grid.length; ++i) {
+  
+  	var gr=[];
+  	for (var j=0;j<4;j++)
+  	{
+  		if (grid[i][j]!==undefined && grid[i][j].hori==1)//point de base se trouvant dans toPoint
+  				gr.push(toPoints[grid[i][j].indice]);
+  		else //c'est une symétrie
+  				gr.push(grid[i][j]);
+  	}
+    transformedGrid[i] = gr;
+  }
+  
+  //////////////////////////////////////////////////////////////////////////:::
+  /***********ajout/*///////
+  /* if (toPoints.length==4) //poour test
+  {
+  		//console.log("ok remplissage transformedgrid début");
+      transformedGrid.push([fromPoints[0],fromPoints[1],fromPoints[2], fromPoints[3]]);//([toPoints[0],toPoints[1],toPoints[2], toPoints[3]]);
+  }*/
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  /*******/
+  //var t1 = (new Date()).getTime();
+ 
+ /* var newImg = this.bilinearInterpolation
+    .generate(this.imgData, grid, transformedGrid);*/
+    
+    /******test génération grille */
+    
+    var newImg = this.bilinearInterpolation
+    .generate(this.imgData,transformedGrid , grid);
+
+  //ctx.setTransform(1, 0, 0, 1, 0, 0);
+  //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  this.ctx.putImageData(source, 0, 0);
+  
+  contx.drawImage(this.canvas, 0, 0);
+  //var t2 = (new Date()).getTime();
+  /*
+  document.getElementById('fps').innerHTML = 
+    'Deform: ' + (t1 - t0) + 'ms; interpolation: ' + (t2 - t1) + 'ms';
+  */
+  /*if (document.getElementById('show-grid').checked) {
+    this.drawGrid(fromPoints, toPoints);
+  }
+  */
+}
+
+ImgWarper.Warper.prototype.drawGrid = function(fromPoints, toPoints) {
+  // Forward warping.
+  /*
+  var deformation = 
+    new ImgWarper.AffineDeformation(fromPoints, toPoints, this.alpha);
+  var context = this.canvas.getContext("2d");
+  for (var i = 0; i < this.grid.length; ++i) {
+    context.beginPath();
+    var point = deformation.pointMover(this.grid[i][0]);
+    context.moveTo(point.x, point.y);
+    for (var j = 1; j < 4; ++j) {
+      point = deformation.pointMover(this.grid[i][j]);
+      context.lineTo(point.x, point.y);
+    }
+    context.strokeStyle = 'rgba(170, 170, 170, 0.5)';
+    context.stroke();
+  }
+  */
+}
+
+ImgWarper.AffineDeformation = function(fromPoints, toPoints, alpha) {
+  this.w = null;
+  this.pRelative = null;
+  this.qRelative = null;
+  this.A = null;
+  if (fromPoints.length != toPoints.length) {
+    console.error('Points are not of same length.'); 
+    return;
+  }
+  this.n = fromPoints.length;  
+  this.fromPoints = fromPoints;
+  this.toPoints = toPoints;
+  this.alpha = alpha;
+};
+
+ImgWarper.AffineDeformation.prototype.pointMover = function (point){
+  if (null == this.pRelative || this.pRelative.length < this.n) {
+    this.pRelative = new Array(this.n); 
+  }
+  if (null == this.qRelative || this.qRelative.length < this.n) {
+    this.qRelative = new Array(this.n); 
+  }
+  if (null == this.w || this.w.length < this.n) {
+    this.w = new Array(this.n);
+  }
+  if (null == this.A || this.A.length < this.n) {
+    this.A = new Array(this.n); 
+  }
+
+  for (var i = 0; i < this.n; ++i) {
+    var t = this.fromPoints[i].subtract(point);
+    this.w[i] = Math.pow(t.x * t.x + t.y * t.y, -this.alpha);
+  }
+
+  var pAverage = ImgWarper.Point.weightedAverage(this.fromPoints, this.w);
+  var qAverage = ImgWarper.Point.weightedAverage(this.toPoints, this.w);
+
+  for (var i = 0; i < this.n; ++i) {
+    this.pRelative[i] = this.fromPoints[i].subtract(pAverage);
+    this.qRelative[i] = this.toPoints[i].subtract(qAverage);
+  }
+
+  var B = new ImgWarper.Matrix22(0, 0, 0, 0);
+
+  for (var i = 0; i < this.n; ++i) {
+    B.addM(this.pRelative[i].wXtX(this.w[i]));
+  }
+
+  B = B.inverse();
+  for (var j = 0; j < this.n; ++j) {
+    this.A[j] = point.subtract(pAverage).multiply(B)
+      .dotP(this.pRelative[j]) * this.w[j];
+  }
+
+  var r = qAverage; //r is an point 
+  for (var j = 0; j < this.n; ++j) {
+    r = r.add(this.qRelative[j].multiply_d(this.A[j]));
+  }
+  return r;
+};
+

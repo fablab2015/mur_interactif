@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Tactile</title>
+    <meta name="description" content="Table Tactile" />
+    <meta name="author" content="Adam Tiamiou - Benoit Perruche" />
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="css/header.css" />
+    <link rel="stylesheet" type="text/css" href="css/icons.css" />
+    <link rel="stylesheet" type="text/css" href="css/window.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/toolbar.css" />
+    
+    <script src="/js/warping/jquery.js"></script>
+    <!--<script src="/js/warping/main.js"></script>-->
+    <script src="/js/warping/deformation.js"></script>
+    <script src="/js/warping/interpolation.js"></script>
+    <script src="/js/warping/matrix22.js"></script>
+    <script src="/js/warping/point.js"></script>
+    <script src="/js/warping/point_definer.js"></script>
+
+    <script src="/includes/jquery/jquery.js"></script>
+    <script src="includes/modernizr.custom.js"></script>
+    <script src="includes/classie.js"></script>
+    <script src="includes/mlpushmenu.js"></script>
+    <!-- Load local lib and tests. -->
+    <script src="/includes/jquery.pep.js"></script>
+    <script src="/includes/interact.js"></script>
+    <script src="/includes/jester.js"></script>
+    <script src="/includes/flowplayer.min.js"></script>
+    <script src="/includes/pdf.js"></script>
+
+    <!--<script type="text/javascript" src="C:\configTable.ini"></script>-->
+    <script src="/nowjs/now.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/callback.js"></script>
+    <script src="/js/nowCallback.js"></script>
+    <script src="/js/loadMedia.js"></script>
+    <script src="/js/controlBar.js"></script>
+    <script src="/js/apps/ping_pong.js"></script>
+    <script src="/js/apps/multi_display.js"></script>
+    <script src="/js/apps/drawing.js"></script>
+	<script src="/js/apps/interactif.js"></script>
+</head>
+<body>
+    <label class="fullscreen-controls transparent" id="fullscreen-controls-id" style="display: none; z-index:1">
+        <label id="close-fullscreen">[ / ]</label>
+        <label id="fullscreen-close-window">X</label>
+    </label>
+
+    <div class="container">
+        <!-- Push Wrapper -->
+        <div class="mp-pusher" id="mp-pusher">
+            <!-- mp-menu -->
+            <nav id="mp-menu" class="mp-menu">
+                <div class="mp-level">
+                    <h2 class="icon icon-world">Start</h2>
+                    <ul>
+                        <li class="icon icon-arrow-left">
+                            <a class="icon icon-shop" href="#">Apps</a>
+                            <div class="mp-level">
+                                <h2 class="icon icon-shop">Apps</h2>
+                                <a class="mp-back" href="#">back</a>
+                                <ul>
+                                    <li><a class="icon icon-photo load-drawing">Drawing</a></li>
+                                    <li><a class="icon icon-photo load-ping-pong">Ping Pong</a></li>
+                                    <li><a class="icon icon-photo load-multi-display">Multi-Display</a></li>
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="icon icon-arrow-left">
+                            <a class="icon icon-photo" href="#">Pictures</a>
+                            <div class="mp-level">
+                                <h2 class="icon icon-news">Pictures</h2>
+                                <a class="mp-back" href="#">back</a>
+                                <ul>
+                                    <li class="icon icon-arrow-left">
+                                        <a class="icon icon-phone" href="#">Local File</a>
+                                        <div class="mp-level" id="choose">
+                                            <input class="input-file" type="file" id="input-picture">
+                                            <label for="input-picture" class="input-file-trigger" tabindex="0">Select a file...</label>
+                                            <p class="file-return"></p>
+                                            <div class="load-file load-picture">Load Picture</div>
+                                        </div>
+
+                                    </li>
+                                    <li><a class="icon icon-phone" href="#">URL</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="icon icon-arrow-left">
+                            <a class="icon icon-display" href="#">Video</a>
+                            <div class="mp-level">
+                                <h2 class="icon icon-display">Video</h2>
+                                <a class="mp-back" href="#">back</a>
+                                <ul>
+                                    <li class="icon icon-arrow-left">
+                                        <a class="icon icon-phone" href="#">Local File</a>
+                                        <div class="mp-level" id="choose">
+                                            <input class="input-file" type="file" id="input-video-tiled-display">
+                                            <label for="input-video-tiled-display" class="input-file-trigger" tabindex="0">Select a file...</label>
+                                            <p class="file-return"></p>
+                                            <div class="load-file load-tiled-display">Load Video</div>
+                                        </div>
+
+                                    </li>
+                                    <li><a class="icon icon-phone" href="#">URL</a></li>
+                                    <!--<li class="icon icon-arrow-left">
+                                        <a class="icon icon-phone" href="#">Select Tables</a>
+                                        <div class="mp-level">
+                                            Select Tables
+                                            <div class="table_position" id="table_position_NW"><span>NW</span></div>
+                                            <div class="table_position" id="table_position_NE"><span>NE</span></div>
+                                            <div class="table_position" id="table_position_SW"><span>SW</span></div>
+                                            <div class="table_position" id="table_position_SE"><span>SE</span></div>
+                                        </div>
+
+                                    </li>-->
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="icon icon-arrow-left">
+                            <a class="icon icon-news" href="#">Pdf</a>
+                            <div class="mp-level" id="choose">
+                                <h2 class="icon icon-display">Pdf</h2>
+                                <a class="mp-back" href="#">back</a>
+                                <input class="input-file" type="file" id="input-pdf">
+                                <label for="input-pdf" class="input-file-trigger" tabindex="0">Select a file...</label>
+                                <p class="file-return"></p>
+                                <div class="load-file load-pdf">Load PDF</div>
+
+                            </div>
+                        </li>
+                        <li><a class="icon icon-photo load-shared-window">Shared Window</a></li>
+                        <li><a class="icon icon-wallet rotate-display-div">Rotate</a></li>
+                    </ul>
+
+                </div>
+            </nav>
+            <!-- /mp-menu -->
+            <div class="scroller">
+                <!-- this is for emulating position fixed of the nav -->
+                <!-- Top Navigation -->
+                <div class="codrops-top clearfix">
+                    PROJET TABLE TACTILE
+                    <span class="left"> <a class="codrops-icon codrops-icon-prev" href="http://air.imag.fr/index.php/Proj-2014-2015-SmartClassRoom"><span>Documentation</span></a></span>
+
+                    <span class="right"><a class="codrops-icon codrops-icon-drop" href="https://github.com/falle38/SmartClassroom-TiledDisplayPart"><span>Lien Github</span></a></span>
+                </div>
+                <div class="display">
+
+                    <div class="block clearfix">
+                        <p><a href="#" id="trigger" class="menu-trigger"></a></p>
+                    </div>
+                </div><!-- /scroller-inner -->
+            </div><!-- /scroller -->
+        </div><!-- /pusher -->
+
+    </div><!-- /container -->
+
+    <script>
+
+    </script>
+</body>
+</html>

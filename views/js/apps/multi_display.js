@@ -1,0 +1,614 @@
+
+var Projection = Projection || {};
+
+var projs = [];
+
+
+var proj_translation_width = 400;
+var proj_translation_height = 300;
+	
+function oppositeDirection(dir) {
+	var opp;
+	if(dir == "left") {
+		opp = "right";
+	}
+	else if(dir == "right") {
+		opp = "left";
+	}
+	else if(dir == "up") {
+		opp = "down";
+	}
+	else { //if(dir == "down")
+		opp = "up";
+	}
+	return opp;
+}
+
+Projection.createProjection = function (windowId, isMaster, translation) {  
+	var that = this;
+	
+///////////////////////////////////////////////////////////////////////////////
+//////// Definition of the structures to represent the displays        ////////
+///////////////////////////////////////////////////////////////////////////////
+
+  	var width_display=150;
+  	var height_display=75;
+  	var radius =10;
+  	var lastSelectedDisplay = null;
+  	
+	that.neighbors = {};
+  	
+	that.displays = [];
+  	
+  	function createDisplay()
+  	{
+  		var display = {}
+  		
+  		var tab=[];
+  		var translation=0.1;
+  		tab.push(createPoint(0+translation+that.translation.x,
+  			0+translation+that.translation.y,
+  			radius,true))
+		tab.push(createPoint(width_display+translation+that.translation.x,
+			0+translation+that.translation.y,
+			radius,true));
+		tab.push(createPoint(width_display+translation+that.translation.x,
+			height_display+translation+that.translation.y,
+			radius,true));
+		tab.push(createPoint(0+translation+that.translation.x,
+			height_display+translation+that.translation.y,
+			radius,true));
+		tab.push(createPoint(width_display/2+translation+that.translation.x,
+			height_display/2+translation+that.translation.y,
+			radius,true));//centre
+	
+		display['points'] = tab;
+		display['url'] = null;
+	
+		that.displays.push(display);
+		Object.displays = that.displays;
+  	}
+ 
+  	function createPoint( x, y, radius, original)
+  	{
+  	
+		var point = {
+	  		p_x:x,
+	  		p_y:y,
+	  		p_radius:radius,
+	  		p_original:original
+	  	};
+  		
+  		return point;
+  	
+  	}
+  	
+  	function drawDisplays(){
+  		for (var i=0;i<that.displays.length;i++)
+  			drawDisplay(that.displays[i]['points'],(i == lastSelectedDisplay));
+  	}
+  	
+  	function drawDisplay(tab,selected){
+  		for (var i=0;i<tab.length;i++)
+  			drawPoint(tab[i],selected);
+  		drawLines(tab);
+  	}
+  	
+  	function drawPoint(point, selected)
+  	{
+ 		var ctx = that.app.canvas.getContext('2d');
+		if(point.p_original && !selected)
+			ctx.fillStyle="#FF0000";
+		else if(point.p_original && selected){
+			ctx.fillStyle="#B20000";
+		}
+		else
+			ctx.fillStyle = "#444444";
+  		circle(point.p_x,point.p_y,point.p_radius);
+  	}
+  	
+  	function drawLines(display){
+ 		var ctx = that.app.canvas.getContext('2d');
+  		ctx.fillStyle = "#444444";
+		for (var i=0;i<display.length-2;i++)
+			line(display[i].p_x,display[i].p_y,
+				display[i+1].p_x,display[i+1].p_y);
+		line(display[display.length-2].p_x,display[display.length-2].p_y,
+			display[0].p_x,display[0].p_y);
+  	}
+  	
+  	function displaysContains( x,y){
+  		for(var i=0;i<that.displays.length;i++){
+  			var result =displayContains(x,y,that.displays[i]['points']);
+  			if (result)
+  				return result;
+  		}
+		return null;
+  	}
+  	
+  	function displayContains(x,y,display){
+  		for(var i=0;i<display.length;i++){
+  			var result= isPoint(x,y,display[i]);
+  			if (result){
+  				result.push(display);
+  				return result;
+  			}
+  		}
+  		return null;
+  	}
+  	
+  	function isPoint(x, y,point)
+  	{
+  		if (Math.sqrt( 
+				Math.pow((x-point.p_x+that.translation.x),2)
+				+Math.pow((y-point.p_y+that.translation.y),2) 
+			) <= point.p_radius){
+			
+	  			var result=[point];
+	  			return result;
+	  			
+  		}
+  		return null;
+  	}
+  	
+  	function isInDisplay(display,point,x_dest,y_dest){
+  		if (display[display.length-1]!=point)//c'est pas le centre le centre
+		{ 
+			var x_ok = true
+			var y_ok = true
+			var result=[1,x_ok,y_ok];
+			return result;
+		}
+  		else{
+  			var x_dist = x_dest-point.p_x+that.translation.x;
+  			var y_dist = y_dest-point.p_y+that.translation.y;
+  			var result = [0,x_dist,y_dist];
+  			return result; 
+  		}
+  	}
+  	
+	var WIDTH = proj_translation_width;
+	var HEIGHT = proj_translation_height;
+
+	var data = { "masterPosition": infos.position };
+	var canvas = createCanvas(windowId, "MULTI_DISPLAY", WIDTH, HEIGHT, "game", isMaster, false, data);
+	var dragged = null;
+	  
+	that.app = {
+	  	// Initialize canvas and required variables
+	  	canvas : canvas,
+
+		draw : function(propagate) {
+		 	var ctx = that.app.canvas.getContext('2d');
+			clear();
+			ctx.fillStyle = "#FAF7F8";
+			rect(0,0,that.app.WIDTH,that.app.HEIGHT);
+			drawDisplays();
+			/*
+			if(propagate !== undefined && propagate)
+				drawNeighbors();
+			*/
+			if(propagate !== undefined && propagate)
+				drawAll();
+		}
+	}
+	
+	function drawAll() {
+		for(var i = 0; i < projs.length; i++) {
+			projs[i].app.draw(false);
+		}
+	}
+	
+	function drawNeighbors() {
+		if(that.neighbors['up'] !== undefined) {
+			that.neighbors['up'].app.draw(false);
+		} else if(that.neighbors['down'] !== undefined) {
+			that.neighbors['down'].app.draw(false);
+		}   else if(that.neighbors['left'] !== undefined) {
+			that.neighbors['left'].app.draw(false);
+		}   else if(that.neighbors['right'] !== undefined) {
+			that.neighbors['right'].app.draw(false);
+		}  
+	}
+	
+	if(translation !==undefined) {
+		that.translation = translation;
+		
+		var ctx = that.app.canvas.getContext('2d');
+		ctx.translate(-that.translation.x,-that.translation.y);
+	} else { 
+		that.translation = {x: 0, y: 0};
+	}
+	  
+	function circle(x,y,r) {
+ 		var ctx = that.app.canvas.getContext('2d');
+		ctx.beginPath();
+		ctx.arc(x, y, r, 0, Math.PI*2); 
+		ctx.closePath();
+		ctx.fill();
+	}
+	function line(x1,y1,x2,y2) {
+
+		var ctx = that.app.canvas.getContext("2d");
+		ctx.beginPath();
+		ctx.moveTo(x1,y1);
+		ctx.lineTo(x2,y2);
+		ctx.stroke();
+	}
+	  
+	function rect(x,y,w,h) {
+ 		var ctx = that.app.canvas.getContext('2d');
+		ctx.beginPath();
+		ctx.rect(x,y,w,h);
+		ctx.closePath();
+		ctx.fill();
+	}
+
+	function clear() {
+ 		var ctx = that.app.canvas.getContext('2d');
+		ctx.clearRect(0+that.translation.x, 0+that.translation.y, WIDTH+that.translation.x, HEIGHT+that.translation.y);
+	}
+
+	
+	
+///////////////////////////////////////////////////////////////////////////////
+//////// Binding a video to a display                                  ////////
+///////////////////////////////////////////////////////////////////////////////
+	
+	function loadVideo(e) {
+		var fileUrl = window.URL.createObjectURL(input.files[0]);
+		if (fileUrl && that.displays[lastSelectedDisplay]) {
+			that.displays[lastSelectedDisplay]['url'] = fileUrl;
+		}
+		input.value = null;
+		initListener();
+	}
+	
+///////////////////////////////////////////////////////////////////////////////
+//////// Starting to display the videos                                ////////
+///////////////////////////////////////////////////////////////////////////////
+
+	function generateVideos() {
+	
+		var atLeastOne = false;
+		
+		for (i=0, iLen = projs.length; i<iLen; i++) {
+			for (j=0, jLen = projs[i].displays.length; j<jLen; j++) {
+				if(projs[i].displays[j] == null || projs[i].displays[j]['url']!=null) {
+					atLeastOne = true;
+					break;
+				}
+			}
+			if(atLeastOne)
+				break;
+		}
+		
+		if(!atLeastOne)
+			return;
+		
+		Object.width_display=canvas.width;
+		Object.height_display=canvas.height;
+		Object.projs = [];
+		
+		Object.currVideo = -1;
+		
+		var cpt = 0;
+		
+		for (i=0, iLen = projs.length; i<iLen; i++) {
+			for (j=0, jLen = projs[i].displays.length; j<jLen; j++) {
+				if(projs[i].displays[j]['url']!=null) {
+					Object.projs[cpt] = projs[i];
+					cpt++;
+					askServerLoadVideoTiledDisplay(projs[i].displays[j]['url']);
+					break;
+				}
+			}
+		}
+	}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////// Adding the custom listeners                                   ////////
+///////////////////////////////////////////////////////////////////////////////
+	
+	var projsDrawn = [];
+	
+	function testNeighbor(proj, dir, dep, currDisplay) {
+		if(proj.neighbors[dir] !== undefined) {
+			if(dep) {
+				if(currDisplay!==undefined && -1==$.inArray(currDisplay,proj.neighbors[dir].displays)) {
+					proj.neighbors[dir].displays.push(currDisplay);
+				}
+				proj.neighbors[dir].app.draw();
+			} else if((index = $.inArray(currDisplay,proj.neighbors[dir].displays))!=-1) {
+				proj.neighbors[dir].displays.splice(index, 1);
+				proj.neighbors[dir].app.draw();
+			}
+		}
+	}
+	
+	function testOverEdges(proj, currDisplay) {
+		projsDrawn.push(proj);
+		if(proj.neighbors !== undefined) {
+		
+			var index;
+			var dep_up = false;
+			var dep_down = false;
+			var dep_left = false;
+			var dep_right = false;
+			
+			for(var i=0;i<currDisplay['points'].length-1;i++){
+				if(currDisplay['points'][i].p_x < 0+proj.translation.x && proj.neighbors['left'] !== undefined) {
+					dep_left = true;
+				}
+				
+				if(currDisplay['points'][i].p_x > proj.app.canvas.width+proj.translation.x && proj.neighbors['right'] !== undefined) {
+					dep_right = true;
+				}
+				
+				if(currDisplay['points'][i].p_y < 0+proj.translation.y && proj.neighbors['up'] !== undefined) {
+					dep_up = true;
+				}
+				
+				if(currDisplay['points'][i].p_y > proj.app.canvas.height+proj.translation.y && proj.neighbors['down'] !== undefined) {
+					dep_down = true;
+				}
+			}
+			
+			if(proj.neighbors['up']!==undefined && (index = $.inArray(proj.neighbors['up'],projsDrawn))==-1) {
+				testNeighbor(proj, 'up', dep_up, currDisplay);
+				testOverEdges(proj.neighbors['up'], currDisplay);
+			}
+			if(proj.neighbors['down']!==undefined && (index = $.inArray(proj.neighbors['down'],projsDrawn))==-1) {
+				testNeighbor(proj, 'down', dep_down, currDisplay);
+				testOverEdges(proj.neighbors['down'], currDisplay);
+			}
+			if(proj.neighbors['left']!==undefined && (index = $.inArray(proj.neighbors['left'],projsDrawn))==-1) {
+				testNeighbor(proj, 'left', dep_left, currDisplay);
+				testOverEdges(proj.neighbors['left'], currDisplay);
+			}
+			if(proj.neighbors['right']!==undefined && (index = $.inArray(proj.neighbors['right'],projsDrawn))==-1) {
+				testNeighbor(proj, 'right', dep_right, currDisplay);
+				testOverEdges(proj.neighbors['right'], currDisplay);
+			}
+			
+		}
+		
+		proj.app.draw(true);
+	}
+	
+	function myMove(e){
+		if (dragged){
+			projsDrawn = [];
+			
+			var result=isInDisplay(dragged[1],dragged[0],e.offsetX,e.offsetY) ;
+			if (result[0]==1)//not centre
+			{
+				if(result[1])
+					dragged[0].p_x = e.offsetX+that.translation.x;
+				if(result[2])
+					dragged[0].p_y = e.offsetY+that.translation.y;
+			
+				dragged[1][dragged[1].length-1].p_x = 0;
+				dragged[1][dragged[1].length-1].p_y = 0;
+			
+				for(var i=0;i<dragged[1].length-1;i++){
+					dragged[1][dragged[1].length-1].p_x += dragged[1][i].p_x;
+					dragged[1][dragged[1].length-1].p_y += dragged[1][i].p_y;
+				}
+			
+				dragged[1][dragged[1].length-1].p_x /= dragged[1].length-1;
+				dragged[1][dragged[1].length-1].p_y /= dragged[1].length-1;
+			}
+			else if (result[0]==0)
+			{//déplacer tous les points
+				for(var i=0;i<dragged[1].length;i++){
+					dragged[1][i].p_x+=result[1];
+					dragged[1][i].p_y+=result[2];
+				}
+			}
+			
+			
+			testOverEdges(that, that.displays[lastSelectedDisplay]);
+		}
+	}
+	
+	function myDown(e){
+
+		if (e.which==1) {//leftClick
+			for(var i=0;i<that.displays.length;i++){
+	  			if(displayContains(e.offsetX,e.offsetY, that.displays[i]['points']))
+	  				lastSelectedDisplay = i;
+			}
+			dragged = displaysContains(e.offsetX,e.offsetY);
+			
+			if(dragged){
+				that.app.canvas.onmousemove = myMove;
+			}
+		} else if (e.which==3) {//rightClick
+			dragged = displaysContains(e.offsetX,e.offsetY);
+			if(dragged && dragged[1][dragged[1].length-1]!=dragged[0]) {
+				var i;
+				for (i=0, iLen=dragged[1].length; i<iLen; i++) {
+					if (dragged[1][i] == dragged[0]) {
+						break;
+					}
+				}
+				dragged[1].splice(i+1,0,createPoint(dragged[1][i].p_x,dragged[1][i].p_y,dragged[1][i].p_radius,false));
+			}
+		}
+	}
+
+	function myUp(){
+		dragged = null;
+		that.app.canvas.onmousemove = null;
+	}
+	
+	function RightMouseDown() { return false; }
+	var input=document.createElement('input');
+	input.type="file";
+	input.onchange = loadVideo;
+	
+	function myKeyUp(e) {
+		if (e.keyCode == 107) {// plus
+			input.click();
+		}else if(e.keyCode == 45){// inser
+			createDisplay();
+			that.app.draw();
+		}else if(e.keyCode == 46){// suppr
+			if(lastSelectedDisplay == null || that.displays.length<1)
+				return;
+			var index;
+			var currDisplay = that.displays[lastSelectedDisplay];
+			for (i=0, iLen = projs.length; i<iLen; i++)
+				if((index = $.inArray(currDisplay,projs[i].displays))!=-1) {
+					projs[i].displays.splice(index,1);
+					projs[i].app.draw();
+				}
+		}else if(e.keyCode == 13){// enter
+			generateVideos();
+		}else if(e.keyCode == 37){//left arrow
+			Object.proj_direction = 'left';
+			Object.proj_value = that;
+			Object.proj_origin = that.translation;
+			askServerLoadMultiDisplay();
+		}else if(e.keyCode == 38){//up arrow
+			Object.proj_direction = 'up';
+			Object.proj_value = that;
+			Object.proj_origin = that.translation;
+			askServerLoadMultiDisplay();
+		}else if(e.keyCode == 39){//right arrow
+			Object.proj_direction = 'right';
+			Object.proj_value = that;
+			Object.proj_origin = that.translation;
+			askServerLoadMultiDisplay();
+		}else if(e.keyCode == 40){//down arrow
+			Object.proj_direction = 'down';
+			Object.proj_value = that;
+			Object.proj_origin = that.translation;
+			askServerLoadMultiDisplay();
+		}
+	}
+	
+	function closingWindow(){
+		var index;
+		for (i=0, iLen = projs.length; i<iLen; i++)
+			if((index = $.inArray(that,projs))!=-1)
+				projs.splice(index, 1);
+	}
+
+	function initListener() {
+		that.app.canvas.tabIndex = "1";
+		that.app.canvas.onmousedown = myDown;
+		that.app.canvas.onmouseup = myUp;
+		that.app.canvas.oncontextmenu = RightMouseDown;
+		that.app.canvas.onkeyup = myKeyUp;
+		
+		// called in callback when closing the window
+		that.app.canvas.parentElement.beforeclose = closingWindow;
+	}
+
+	initListener();
+
+	windowList[windowId].data = { "game": that.app }
+
+	createDisplay();
+
+	that.app.draw();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////// Main function of the application                              ////////
+///////////////////////////////////////////////////////////////////////////////
+
+function linkNeighbors(proj, opp) {
+	var oppNeighbors = proj.neighbors[opp].neighbors;
+	switch(opp) {
+		case 'up' :
+			if(oppNeighbors['left'] !== undefined && oppNeighbors['left'].neighbors['down']!==undefined) {
+				proj.neighbors['left'] = oppNeighbors['left'].neighbors['down'];
+				oppNeighbors['left'].neighbors['down'].neighbors['right'] = proj;
+			}
+			if(oppNeighbors['right'] !== undefined && oppNeighbors['right'].neighbors['down']!==undefined) {
+				proj.neighbors['right'] = oppNeighbors['right'].neighbors['down'];
+				oppNeighbors['right'].neighbors['down'].neighbors['left'] = proj;
+			}
+		break;
+		case 'down' :
+			if(oppNeighbors['left'] !== undefined && oppNeighbors['left'].neighbors['up']!==undefined) {
+				proj.neighbors['left'] = oppNeighbors['left'].neighbors['up'];
+				oppNeighbors['left'].neighbors['up'].neighbors['right'] = proj;
+			}
+			if(oppNeighbors['right'] !== undefined && oppNeighbors['right'].neighbors['up']!==undefined) {
+				proj.neighbors['right'] = oppNeighbors['right'].neighbors['up'];
+				oppNeighbors['right'].neighbors['up'].neighbors['right'] = proj;
+			}
+		break;
+		case 'left' :
+			if(oppNeighbors['up'] !== undefined && oppNeighbors['up'].neighbors['right']!==undefined) {
+				proj.neighbors['up'] = oppNeighbors['up'].neighbors['right'];
+				oppNeighbors['up'].neighbors['right'].neighbors['down'] = proj;
+			}
+			if(oppNeighbors['down'] !== undefined && oppNeighbors['down'].neighbors['right']!==undefined) {
+				proj.neighbors['down'] = oppNeighbors['down'].neighbors['right'];
+				oppNeighbors['down'].neighbors['right'].neighbors['up'] = proj;
+			}
+		break;
+		case 'right' :
+			if(oppNeighbors['up'] !== undefined && oppNeighbors['up'].neighbors['left']!==undefined) {
+				proj.neighbors['up'] = oppNeighbors['up'].neighbors['left'];
+				oppNeighbors['up'].neighbors['left'].neighbors['down'] = proj;
+			}
+			if(oppNeighbors['down'] !== undefined && oppNeighbors['down'].neighbors['left']!==undefined) {
+				proj.neighbors['down'] = oppNeighbors['down'].neighbors['left'];
+				oppNeighbors['down'].neighbors['left'].neighbors['up'] = proj;
+			}
+		break;
+	}
+}
+
+launchMultiDisplay = function (windowId, isMaster) {
+	
+	var p;
+	
+	var dir = Object.proj_direction;
+	var value = Object.proj_value;
+	var origin = Object.proj_origin;
+	if(dir !== undefined && value !== undefined && origin !==undefined) {
+		
+		var translation = {x:0, y:0};
+		
+		translation.x = origin.x;
+		translation.y = origin.y;
+	
+		var opp = oppositeDirection(dir);
+		
+		if(opp == "right") {
+			translation.x-=proj_translation_width;
+		}
+		else if(opp == "left") {
+			translation.x+=proj_translation_width;
+		}
+		else if(opp == "down") {
+			translation.y-=proj_translation_height;
+		}
+		else { //if(opp == "up")
+			translation.y+=proj_translation_height;
+		}
+		
+		p = new Projection.createProjection(windowId, isMaster, translation);
+		p.neighbors[opp] = value;
+		value.neighbors[dir] = p;
+		
+		linkNeighbors(p, opp);
+		
+		Object.proj_direction = undefined;
+		Object.proj_value = undefined;
+		Object.proj_origin = undefined;
+	} else {
+		p = new Projection.createProjection(windowId, isMaster);
+	}
+	projs.push(p);
+}
+
+

@@ -1,0 +1,2 @@
+C:\Users\Adam\git\SmartClassroom-TiledDisplayPart\obj\Debug\NodejsApp1.njsprojResolveAssemblyReference.cache
+C:\Users\Adam\git\SmartClassroom-TiledDisplayPart\bin\Microsoft.NodejsTools.WebRole.dll
